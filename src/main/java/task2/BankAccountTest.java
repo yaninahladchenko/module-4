@@ -3,31 +3,19 @@ package task2;
 public class BankAccountTest {
 
     public static void main(String[] args) {
-        DebitBankAccount debitBankAccount = new DebitBankAccount(10000.00, 20000.00);
-        double addAmount = 100.00;
-        double withdrawAmount = 200.00;
+        Bank bankObserver = new Bank();
 
-        System.out.println("Bank Account Balance is: " + debitBankAccount.getAccountBalance());
-        System.out.println("Added amount is: " + addAmount);
-        debitBankAccount.addMoney(addAmount);
-        System.out.println("Bank Account Balance is: " + debitBankAccount.getAccountBalance());
+        BankAccount debitBankAccountObservable = new BankAccount(0.00, 1000.00, false);
+        debitBankAccountObservable.addObserver(bankObserver);
 
-        System.out.println("Withdrawal amount is: " + withdrawAmount);
-        System.out.println("Withdrawal fee is: " + debitBankAccount.calculateWithdrawalFee(withdrawAmount));
-        debitBankAccount.withdrawMoney(withdrawAmount);
-        System.out.println("Bank account balance is: " + debitBankAccount.getAccountBalance());
+        debitBankAccountObservable.addMoney(200);
+        debitBankAccountObservable.withdrawMoney(100);
+        debitBankAccountObservable.withdrawMoney(99);
 
-        System.out.println("Trying to withdraw all money. 1% commission should be paid");
-        debitBankAccount.withdrawMoney(debitBankAccount.getAccountBalance());
+        BankAccount creditBankAccountObservable = new BankAccount(0.00, 1000.00, true);
+        creditBankAccountObservable.addObserver(bankObserver);
 
-        System.out.println("Trying to withdraw more money then allowed by withdrawal limit");
-        debitBankAccount.withdrawMoney(30000.00);
-
-
-
-
-
-
-
+        creditBankAccountObservable.withdrawMoney(200);
+        creditBankAccountObservable.withdrawMoney(1000);
     }
 }
